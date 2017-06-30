@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Noticias
+  </title>
+  <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+
+  <script src="http://urigo.github.io/angular-spinkit/javascripts/angular-spinkit.js"></script>
+  <script src='https://cdn.jsdelivr.net/g/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
+
+</head>
+<body>
+  <div ng-app="formApp" ng-controller="formCtrl" class="container">
+    <wave-spinner ng-show="proccesSpinner"></wave-spinner>
+    <div class=" col-md-12">
+      <div class="col-md-3">
+        <h5>Sección 1</h5>
+        <div ng-repeat="item in sectionOne track by $index">
+          <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionOne')"></span>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <h5>Sección 2</h5>
+        <div ng-repeat="item in sectionTwo track by $index">
+          <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionTwo')"></span>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <h5>Sección 3</h5>
+        <div ng-repeat="item in sectionThree track by $index">
+            <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionThree')"></span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+
+    </div>
+    <dvi class="col-md-12">
+      <div class="col-md-6">
+        <table class="table">
+          <tr ng-repeat="item in sectionOne track by $index">
+            <td class="col-md-6">
+              {{item.title}}
+            </td>
+            <td class="col-md-2">
+              {{item.count}}
+            </td>
+            <td class="col-md-4">
+              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
+              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
+            </td>
+          </tr>
+          <tr ng-repeat="item in sectionTwo track by $index">
+            <td class="col-md-6">
+              {{item.title}}
+            </td>
+            <td class="col-md-2">
+              {{item.count}}
+            </td>
+            <td class="col-md-4">
+              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
+              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
+            </td>
+          </tr>
+          <tr ng-repeat="item in sectionThree track by $index">
+            <td class="col-md-6">
+              {{item.title}}
+            </td>
+            <td class="col-md-2">
+              {{item.count}}
+            </td>
+            <td class="col-md-4">
+              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
+              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group ">
+          <label for="sec">Sección</label>
+          <select id="sec" class="form-control" ng-model="control.section" ng-options="s.id as s.name for s in sections"></select>
+        </div>
+        <div class="form-group ">
+          <label for="name">Título</label>
+          <input ng-model="control.title" class="form-control" type="text">
+        </div>
+        <div class="form-group ">
+          <label for="name">Url</label>
+          <input ng-model="control.url" class="form-control" type="text">
+        </div>
+        <div class="col-md-12 ">
+          <button class="btn btn-primary pull-right" type="button" ng-click="addItem(control)">Agregar</button>
+        </div>
+      </div>
+  </div>
+  <script type="text/javascript">
+    angular
+      .module('formApp', ['angularSpinkit'])
+      .controller('formCtrl', function($scope, $log) {
+        $scope.sections = [{id:'sectionOne', name:'Sección 1'}, {id:'sectionTwo', name:'Sección 2'}, {id:'sectionThree', name:'Sección 3'}];
+        $scope.sectionOne = [], $scope.sectionTwo = [], $scope.sectionThree = [];
+
+        $scope.cuentaClick = function(itemData, sectionOneData){
+
+          $log.log('$scope.sectionOne', $scope.sectionOne);
+          if(sectionOneData == 'sectionOne'){
+            $log.log('itemData', itemData.id);
+
+            var item = _.find($scope.sectionOne, function(o) {
+              return (parseInt(o.id)) == (parseInt(itemData.id));
+            });
+            $log.log('item', item);
+            //item.count ++;
+
+            //_.replace($scope.sectionOne, this.identity, item);
+
+          }
+          if(sectionOneData == 'sectionTwo'){
+            var item = _.find($scope.sectionTwo, function(el) {
+                return itemData.id === el.id;
+            });
+            item.count ++;
+            _.replace($scope.sectionTwo, this.identity, item);
+          }
+          if(sectionOneData == 'sectionThree'){
+            var item = _.find($scope.sectionThree, function(el) {
+                return itemData.id === el.id;
+            });
+            item.count ++;
+            _.replace($scope.sectionThree, this.identity, item);
+          }
+
+
+        };
+        $scope.addItem = function() {
+          if($scope.control.section == 'sectionOne'){
+            $scope.sectionOne.push({
+              id : Math.floor((Math.random()*6)+1),
+              title: $scope.control.title,
+              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
+              count:0
+            });
+          } else if($scope.control.section == 'sectionTwo'){
+            $scope.sectionTwo.push({
+              id : Math.floor((Math.random()*6)+1),
+              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
+              count:0
+            });
+          } else if($scope.control.section == 'sectionThree'){
+            $scope.sectionThree.push({
+              id : Math.floor((Math.random()*6)+1),
+              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
+              count:0
+            });
+          }
+        };
+    })
+    .directive('ngHtmlCompile', function($compile) {
+      return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+          scope.$watch(attrs.ngHtmlCompile, function(newValue, oldValue) {
+            element.html(newValue);
+            $compile(element.contents())(scope);
+          });
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>
