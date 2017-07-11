@@ -4,156 +4,151 @@
   <title>
     Noticias
   </title>
-  <link href="https://framework-gb.cdn.gob.mx/assets/styles/main.css" rel="stylesheet">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
   <script src="http://urigo.github.io/angular-spinkit/javascripts/angular-spinkit.js"></script>
-  <script src='https://cdn.jsdelivr.net/g/lodash@4(lodash.min.js+lodash.fp.min.js)'></script>
+  <script src='https://cdn.jsdelivr.net/g/lodash@4.17.4(lodash.core.min.js+lodash.fp.min.js+lodash.core.js+lodash.fp.js+lodash.js+lodash.min.js)'></script>
 
 </head>
 <body>
   <div ng-app="formApp" ng-controller="formCtrl" class="container">
     <wave-spinner ng-show="proccesSpinner"></wave-spinner>
-
-
-    <div class="col-md-12">
-      <div class="col-md-3">
-        <h5>Sección 1</h5>
-        <div ng-repeat="item in sectionOne track by $index">
-          <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionOne')"></span>
-        </div>
+    <ul class="nav nav-tabs" ng-init="selectedSection = 'section1'">
+        <li ng-class="{'active':selectedSection == 'section1'}">
+          <a ng-click="selectedSection = 'section1'">Demo 01 - Sitio de Noticias</a>
+        </li>
+        <li ng-class="{'active':selectedSection == 'section2'}">
+          <a ng-click="selectedSection = 'section2'">Demo 02 - Sitio de Noticias</a>
+        </li>
+        <li ng-class="{'active':selectedSection == 'editor'}">
+          <a ng-click="selectedSection='editor'">Editor</a>
+        </li>
+    </ul>
+    <div class="" ng-show="selectedSection=='section1'">
+      <div class="col-md-12">
+        <h2 class="text-center">{{title}}</h2>
+        <hr/>
       </div>
-      <div class="col-md-6">
-        <h5>Sección 2</h5>
-        <div ng-repeat="item in sectionTwo track by $index">
-          <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionTwo')"></span>
-        </div>
-      </div>
-      <div class="col-md-3">
-        <h5>Sección 3</h5>
-        <div ng-repeat="item in sectionThree track by $index">
-            <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionThree')"></span>
+      <div class="col-md-12">
+        <div class="col-md-6">
+          <div ng-repeat="item in noticias track by $index">
+            <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionOne')"></span>
+            <span class="label label-primary" ng-show="item.tag=='deportes'">{{item.tag}}</span>
+            <span class="label label-success" ng-show="item.tag=='tecnologia'">{{item.tag}}</span>
+            <span class="label label-info" ng-show="item.tag=='ciencias'">{{item.tag}}</span>
+            <span class="label label-warning" ng-show="item.tag=='entrenimiento'">{{item.tag}}</span>
+            <span class="label label-danger" ng-show="item.tag=='noticias'">{{item.tag}}</span>
+            <span class="label label-default" ng-show="item.tag=='moda'">{{item.tag}}</span>
+          </div>
+          <hr/>
         </div>
       </div>
     </div>
-    <dvi class="col-md-12">
-      <div class="col-md-6">
-        <table class="table">
-          <tr ng-repeat="item in sectionOne track by $index">
-            <td class="col-md-6">
-              {{item.title}}
-            </td>
-            <td class="col-md-2">
-              {{item.count}}
-            </td>
-            <td class="col-md-4">
-              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
-              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
-            </td>
-          </tr>
-          <tr ng-repeat="item in sectionTwo track by $index">
-            <td class="col-md-6">
-              {{item.title}}
-            </td>
-            <td class="col-md-2">
-              {{item.count}}
-            </td>
-            <td class="col-md-4">
-              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
-              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
-            </td>
-          </tr>
-          <tr ng-repeat="item in sectionThree track by $index">
-            <td class="col-md-6">
-              {{item.title}}
-            </td>
-            <td class="col-md-2">
-              {{item.count}}
-            </td>
-            <td class="col-md-4">
-              <button class="btn btn-xs btn-primary" type="button"><i class="icon-edit"></i>Editar</button>
-              <button class="btn btn-xs btn-danger" type="button"><i class="icon-trash"></i>Eliminar</button>
-            </td>
-          </tr>
-        </table>
+    <div class="" ng-show="selectedSection=='section2'">
+      <div class="col-md-12">
+        <h2 class="text-center">{{title}}</h2>
+        <hr/>
       </div>
       <div class="col-md-6">
-        <div class="form-group ">
-          <label for="sec">Sección</label>
-          <select id="sec" class="form-control" ng-model="control.section" ng-options="s.id as s.name for s in sections"></select>
-        </div>
-        <div class="form-group ">
-          <label for="name">Título</label>
-          <input ng-model="control.title" class="form-control" type="text">
-        </div>
-        <div class="form-group ">
-          <label for="name">Url</label>
-          <input ng-model="control.url" class="form-control" type="text">
-        </div>
-        <div class="col-md-12 ">
-          <button class="btn btn-primary pull-right" type="button" ng-click="addItem(control)">Agregar</button>
-        </div>
+        <blockquote ng-repeat="item in noticias track by $index" style="font-size:15.5px">
+          <span ng-html-compile="item.htmlNew" ng-click="cuentaClick(item, 'sectionOne')"></span>
+          <small class="label label-primary" ng-show="item.tag=='deportes'">{{item.tag}}</small>
+          <small class="label label-success" ng-show="item.tag=='tecnologia'">{{item.tag}}</small>
+          <small class="label label-info" ng-show="item.tag=='ciencias'">{{item.tag}}</small>
+          <small class="label label-warning" ng-show="item.tag=='entrenimiento'">{{item.tag}}</small>
+          <small class="label label-danger" ng-show="item.tag=='noticias'">{{item.tag}}</small>
+          <small class="label label-default" ng-show="item.tag=='moda'">{{item.tag}}</small>
+        </blockquote>
+        <hr/>
       </div>
-      <div class="col-md-12" ng-show="false">
-        <pre>
-          <span ng-repeat="item in sectionOne track by $index">{{item}}</span>
-        </pre>
-      </div>
+    </div>
+    <div class="" ng-show="selectedSection == 'editor'">
+      <br/>
+      <dvi class="col-md-12">
+        <div class="col-md-6">
+          <table class="table">
+            <tr ng-repeat="item in noticias track by $index">
+              <td class="col-md-6">
+                {{item.title}}
+              </td>
+              <td class="col-md-1">
+                {{item.count}}
+              </td>
+              <td class="col-md-2">
+                {{item.tag}}
+              </td>
+              <td class="col-md-2">
+                <button class="btn btn-xs btn-danger" type="button" ng-click="deleteItem(item)"><i class="icon-trash"></i>Eliminar</button>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group ">
+            <label for="name">Título
+            <input ng-model="control.title" class="form-control" type="text">
+          </div>
+          <div class="form-group ">
+            <label for="name">Url
+            <input ng-model="control.url" class="form-control" type="text">
+          </div>
+          <div class="form-group ">
+            <label for="tagNew">Etiquetas
+            <select id="tagNew" class="form-control" ng-model="control.tag" ng-options="s.id as s.name for s in tags"></select>
+          </div>
+          <div class="form-group ">
+            <label for="name">Imagen
+            <input ng-model="control.imageUrl" class="form-control" type="text">
+          </div>
+          <div class="col-md-12 ">
+            <button class="btn btn-primary pull-right" type="button" ng-click="addItem(control)">Agregar</button>
+          </div>
+        </div>
+        <div class="col-md-12" ng-show="true">
+          <pre>
+            {{noticias}}
+            <!--span ng-repeat="item in noticias track by $index">{{item}}</span-->
+          </pre>
+        </div>
+    </div>
   </div>
   <script type="text/javascript">
     angular
       .module('formApp', ['angularSpinkit'])
       .controller('formCtrl', function($scope, $log) {
+        $scope.title = "La Neta de las Noticas";
         $scope.sections = [{id:'sectionOne', name:'Sección 1'}, {id:'sectionTwo', name:'Sección 2'}, {id:'sectionThree', name:'Sección 3'}];
-        $scope.sectionOne = [{"id":3,"title":"México cae frente Alemania, quieren destruir todo","htmlNew":"<label> <a href=http://www.elgrafico.mx/deportes/29-06-2017/alemania-vence-mexico-4-1-y-los-humillantes-memes-estallan target='_blank'>México cae frente Alemania, quieren destruir todo</label></dt>","count":0},
-          {"id":6,"title":"Mientras en la cancha bailan a México esto paso","htmlNew":"<label> <a href=http://www.elfinanciero.com.mx/economia/esto-paso-mientras-mexico-era-bailado-por-alemania.html target='_blank'>Mientras en la cancha bailan a México esto paso</label></dt>","count":0},
-          {"id":3,"title":"Unos gritan, otros lloran por el partido","htmlNew":"<label> <a href=http://www.eluniversal.com.mx/articulo/deportes/futbol/2017/06/29/asi-se-vivio-el-alemania-4-1-mexico target='_blank'>Unos gritan, otros lloran por el partido</label></dt>","count":0}
-        ], $scope.sectionTwo = [], $scope.sectionThree = [];
+
+        $scope.tags = [
+          {id:'noticias', name:'Noticias'}, {id:'negocios', name:'Negocios'}, {id:'tecnologia', name:'Tecnología'}, {id:'deportes', name:'Deportes'}, {id:'ciencias', name:'Ciencas'}, {id:'entrenimiento', name:'Entrenimiento'}, {id:'moda', name:'Moda'}, {id:'viajes', name:'Viajes'}
+        ];
+
+        $scope.noticias = [{"id":3,"title":"Unos gritan, otros lloran por el partido","htmlNew":" <a href=http://www.eluniversal.com.mx/articulo/deportes/futbol/2017/06/29/asi-se-vivio-el-alemania-4-1-mexico target='_blank'>Unos gritan, otros lloran por el partido","count":0,"tag":"deportes"},{"id":2,"title":"México cae frente Alemania, quieren destruir todo","htmlNew":"<a href=http://www.elgrafico.mx/deportes/29-06-2017/alemania-vence-mexico-4-1-y-los-humillantes-memes-estallan target='_blank'>México cae frente Alemania, quieren destruir todo","count":1,"tag":"deportes"},{"id":6,"title":"Mientras en la cancha bailan a México esto paso","htmlNew":" <a href=http://www.elfinanciero.com.mx/economia/esto-paso-mientras-mexico-era-bailado-por-alemania.html target='_blank'>Mientras en la cancha bailan a México esto paso","count":2,"tag":"deportes"},{"id":5,"title":"Google enseña a sus vehículos autónomos a reconocer servicios de emergencias","htmlNew":" <a href=https://hipertextual.com/2017/07/google-ensena-sus-vehiculos-autonomos-reconocer-servicios-emergencias target='_blank'>Google enseña a sus vehículos autónomos a reconocer servicios de emergencias","count":0,"tag":"tecnologia"},{"id":3,"title":"En “cuidados intensivos” plan de los republicanos para eliminar el Obamacare","htmlNew":" <a href=https://laopinion.com/2017/07/10/n-cuidados-instensivosplan-de-los-republicanos-para-eliminar-el-obamacare/ target='_blank'>En “cuidados intensivos” plan de los republicanos para eliminar el Obamacare","count":0,"tag":"noticias"},{"id":3,"title":"Sólo 100 compañías son responsables del 71% de las emisiones mundiales","htmlNew":" <a href=https://conectica.com/2017/07/10/emisiones-contaminantes-empresas/ target='_blank'>Sólo 100 compañías son responsables del 71% de las emisiones mundiales","count":4,"tag":"noticias"},{"id":6,"title":"5 consejos para aprovechar el Prime Day de Amazon","htmlNew":" <a href=https://flipboard.com/section/negocios-09ivqqujsrqrh2tp/5-consejos-para-aprovechar-el-prime-day-de-amazon/f-d73b9030f5%2Fcom.mx target='_blank'>5 consejos para aprovechar el Prime Day de Amazon","count":0,"tag":"tecnologia"}];
+
+        $scope.noticias = _.orderBy($scope.noticias, ['count', 'tag'],['desc','desc']);
+
         $scope.cuentaClick = function(itemData, sectionOneData){
-          if(sectionOneData == 'sectionOne'){
-            var index = $scope.sectionOne.indexOf(itemData);
-            var item = $scope.sectionOne[index];
-            item.count ++;
-            _.replace($scope.sectionOne, this.identity, item);
-          }
-          if(sectionOneData == 'sectionTwo'){
-            var index = $scope.sectionTwo.indexOf(itemData);
-            var item = $scope.sectionTwo[index];
-            item.count ++;
-            _.replace($scope.sectionTwo, this.identity, item);
-          }
-          if(sectionOneData == 'sectionThree'){
-            var index = $scope.sectionThree.indexOf(itemData);
-            var item = $scope.sectionThree[index];
-            item.count ++;
-            _.replace($scope.sectionThree, this.identity, item);
-          }
-          $log.log('sectionOne');
-          $log.log('sectionOne', $scope.sectionTwo);
-          $log.log('sectionOne', $scope.sectionThree);
+          var index = $scope.noticias.indexOf(itemData);
+          var item = $scope.noticias[index];
+          item.count ++;
+          _.replace($scope.noticias, this.identity, item);
+
+          $scope.noticias = _.orderBy($scope.noticias, ['count', 'tag'],['desc','desc']);
+
+          $log.log('ordenando', $scope.noticias.toString());
         };
 
         $scope.addItem = function() {
-          if($scope.control.section == 'sectionOne'){
-            $scope.sectionOne.push({
-              id : Math.floor((Math.random()*6)+1),
-              title: $scope.control.title,
-              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
-              count:0
-            });
-          } else if($scope.control.section == 'sectionTwo'){
-            $scope.sectionTwo.push({
-              id : Math.floor((Math.random()*6)+1),
-              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
-              count:0
-            });
-          } else if($scope.control.section == 'sectionThree'){
-            $scope.sectionThree.push({
-              id : Math.floor((Math.random()*6)+1),
-              htmlNew : "<label> <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"</label></dt>",
-              count:0
-            });
-          }
+          $scope.noticias.push({
+            id : Math.floor((Math.random()*6)+1),
+            title : $scope.control.title,
+            htmlNew : " <a href=" + $scope.control.url + " target='_blank'>"+ $scope.control.title +"",
+            count : 0,
+            tag: $scope.control.tag
+          });
+          $scope.noticias = _.orderBy($scope.noticias, ['count', 'tag'],['desc','desc']);
         };
     })
     .directive('ngHtmlCompile', function($compile) {
